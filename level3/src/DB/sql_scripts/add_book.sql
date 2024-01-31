@@ -1,0 +1,1 @@
+INSERT INTO books (title, img, year, pages, isbn, description) VALUES (?, ?, ?, ?, ?, ?);

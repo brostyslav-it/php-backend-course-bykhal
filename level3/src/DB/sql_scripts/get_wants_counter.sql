@@ -1,0 +1,1 @@
+SELECT wantsCounter FROM books WHERE id = ?;

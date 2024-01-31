@@ -1,0 +1,1 @@
+SELECT author FROM authors WHERE id = ?;

@@ -1,0 +1,1 @@
+SELECT id, title, img FROM books;

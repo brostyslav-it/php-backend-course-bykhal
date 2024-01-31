@@ -1,0 +1,1 @@
+INSERT INTO admins (login, password) VALUES ('rostik', '123');

@@ -1,0 +1,1 @@
+SELECT book_id from books_authors WHERE author_id = ?;
