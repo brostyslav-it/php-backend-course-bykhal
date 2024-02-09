@@ -1,1 +1,1 @@
-SELECT * FROM books WHERE year = ?;
+SELECT * FROM books WHERE year = ? AND deleted_at IS NULL;

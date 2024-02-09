@@ -9,6 +9,7 @@ class AdminController extends Controller
 {
     private AdminModel $model;
     private ErrorPageController $error;
+    private const int BOOKS_PER_PAGE = 2;
 
     public function __construct()
     {
@@ -34,7 +35,20 @@ class AdminController extends Controller
 
     public function renderTemplate(): void
     {
-        $this->view('admin-page', ['authors' => $this->getAuthors(), 'books' => $this->getBooks()]);
+        $allBooks = $this->getBooks();
+        $pages = ceil(count($allBooks) / self::BOOKS_PER_PAGE);
+        $pageNumber = $this->getPageNumber() > $pages ? $pages : ($this->getPageNumber() < 1 ? 1 : $this->getPageNumber());
+
+        $books = $this->getBooksForPage($allBooks, $pageNumber);
+
+        $this->view(
+            'admin-page',
+            [
+                'authors' => $this->getAuthors(),
+                'books' => $books,
+                'pages' => $pages
+            ]
+        );
     }
 
     public function addAuthor(): void
@@ -51,7 +65,7 @@ class AdminController extends Controller
     {
         $this->handleAddErrors($this->model->addBook(
             $this->handleArgument($_POST['book_name']),
-            $_POST['authors'] ?? null,
+            array_values(array_filter($_POST['authors'], fn ($el) => $el !== '')),
             $this->handleArgument($_FILES['book_image']),
             $this->handleArgument($_POST['book_year']),
             $this->handleArgument($_POST['book_pages']),
@@ -60,15 +74,20 @@ class AdminController extends Controller
         ));
     }
 
-    public function getBooks(): array
+    private function getBooks(): array
     {
         return $this->model->getBooks();
+    }
+
+    private function getBooksForPage(array $books, int $page): array
+    {
+        return array_slice($books, ($page - 1) * self::BOOKS_PER_PAGE, self::BOOKS_PER_PAGE);
     }
 
     public function deleteBook(): void
     {
         preg_match_all('#\d+#', $_SERVER['REQUEST_URI'], $book_id);
-        $this->model->deleteBook($book_id[0][1]);
+        $this->handleAddErrors($this->model->markBookDeleted($book_id[0][1]));
     }
 
     private function handleAddErrors(array $result): void
@@ -80,8 +99,14 @@ class AdminController extends Controller
         }
     }
 
-    private function handleArgument(mixed $argument)
+    private function handleArgument(mixed $argument): ?string
     {
-        return empty($argument) ? null : $argument;
+        return empty($argument) ? null : htmlspecialchars($argument);
+    }
+
+    private function getPageNumber(): int
+    {
+        preg_match('#\d+#', $_SERVER['REQUEST_URI'], $page);
+        return $page[0] ?? 1;
     }
 }

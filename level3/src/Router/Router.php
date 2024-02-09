@@ -16,7 +16,7 @@ class Router
 
     public function dispatch(string $uri, string $method): void
     {
-        [$route, $params] = $this->findRouteAndParams($uri, $method);
+        $route = $this->findRoute($uri, $method);
 
         if (!$route) $this->notFound();
 
@@ -28,15 +28,15 @@ class Router
 
     private function notFound(): void
     {
-        echo 'Not found :(';
+        require_once '../../public/static/404-page/404-page.php';
         exit();
     }
 
-    private function findRouteAndParams(string $uri, string $method): false|array
+    private function findRoute(string $uri, string $method): false|Route
     {
         foreach (array_reverse($this->routes[$method]) as $routeUri => $route) {
             if (preg_match($routeUri, $uri)) {
-                return [$route, str_replace($routeUri, '', $uri)];
+                return $route;
             }
         }
 

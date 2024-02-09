@@ -1,1 +1,1 @@
-SELECT wantsCounter FROM books WHERE id = ?;
+SELECT wantsCounter FROM books WHERE id = ? AND deleted_at IS NULL;

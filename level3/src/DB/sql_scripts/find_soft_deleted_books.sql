@@ -1,0 +1,1 @@
+SELECT * FROM books WHERE deleted_at IS NOT NULL;

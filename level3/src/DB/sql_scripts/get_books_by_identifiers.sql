@@ -1,1 +1,1 @@
-SELECT * FROM books WHERE id IN (:idList);
+SELECT * FROM books WHERE id IN (:idList) AND deleted_at IS NULL;

@@ -70,7 +70,7 @@
 
             <div class="col mb-3 align-items-end">
                 <label for="image-preview" class="form-label">Прев'ю зображення</label>
-                <img src="static/books-images/default.png" width="100" alt="Прев'ю" id="image-preview"
+                <img src="/static/books-images/default.png" width="100" alt="Прев'ю" id="image-preview"
                      class="img-thumbnail">
             </div>
         </div>
@@ -117,13 +117,13 @@
         <?php foreach ($data['books'] as $book): ?>
             <tr>
                 <th scope="row">
-                    <img src="static/book-images/<?= $book['id'] . $book['img'] ?>" alt="Book" width="100">
+                    <img src="/static/book-images/<?= $book['id'] . $book['img'] ?>" alt="Book" width="100">
                     <?= $book['title'] ?>
                 </th>
                 <td><?= implode(', ', $book['authors']) ?></td>
                 <td><?= $book['year'] ?></td>
                 <td>
-                    <form method="post" action="/admin/api/v1/<?= $book['id'] ?>/deleteBook">
+                    <form method="post" action="/admin/api/v1/<?= $book['id'] ?>/deleteBook" onsubmit="return confirm('Впевнені у видаленні?');">
                         <button class="btn btn-light" type="submit">Видалити</button>
                     </form>
                 </td>
@@ -136,9 +136,9 @@
 
 <nav aria-label="...">
     <ul class="pagination pagination-lg justify-content-center">
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <?php for ($i = 0; $i < $data['pages']; $i++): ?>
+        <li class="page-item"><a class="page-link" href="/admin/<?= $i + 1 ?>"><?= $i + 1 ?></a></li>
+        <?php endfor; ?>
     </ul>
 </nav>
 

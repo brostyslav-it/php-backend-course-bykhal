@@ -27,13 +27,7 @@ $static = "/static/book-page/book-page_files";
 <?php $view->component('header'); ?>
 
 <div class="container mt-5 mb-5">
-    <h3>Помилка :(</h3>
-
-    <div class="alert alert-danger" role="alert">
-        <?php foreach ($data['errors'] as $error): ?>
-            <?= $error . '<br>' ?>
-        <?php endforeach; ?>
-    </div>
+    <h3>Помилка 404, сторінку не знайдено :(</h3>
 </div>
 
 <?php $view->component('footer'); ?>

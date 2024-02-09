@@ -11,10 +11,7 @@ class BookModel extends Model
 
     public function getBook(int $id): array|false
     {
-        $result = $this->db->query(
-            file_get_contents(SQL_SCRIPTS_PATH . '/find_book.sql'),
-            ['i', [$id]]
-        );
+        $result = $this->query('find_book.sql', ['i', [$id]]);
 
         if ($result->num_rows > 0) {
             $book = $result->fetch_assoc();
@@ -28,22 +25,13 @@ class BookModel extends Model
 
     public function incrementViewsCounter(int $id): void
     {
-        $this->db->query(
-            file_get_contents(SQL_SCRIPTS_PATH . '/increment_book_views.sql'),
-            ['i', [$id]]
-        );
+        $this->query('increment_book_views.sql', ['i', [$id]]);
     }
 
     public function incrementWantsCounter(int $id): array
     {
-        $this->db->query(
-            file_get_contents(SQL_SCRIPTS_PATH . '/increment_wants_counter.sql'),
-            ['i', [$id]]
-        );
+        $this->query('increment_wants_counter.sql', ['i', [$id]]);
 
-        return $this->db->query(
-            file_get_contents(SQL_SCRIPTS_PATH . '/get_wants_counter.sql'),
-            ['i', [$id]]
-        )->fetch_assoc();
+        return $this->query('get_wants_counter.sql', ['i', [$id]])->fetch_assoc();
     }
 }

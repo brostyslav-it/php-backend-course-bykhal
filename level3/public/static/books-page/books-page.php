@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
           crossorigin="anonymous"/>
 
-    <link rel="shortcut icon" href="http://localhost:3000/favicon.ico">
     <style>
         .details {
             display: none;
@@ -27,6 +26,7 @@
 
 <body data-gr-c-s-loaded="true" class="">
 <?php $view->component('header'); ?>
+<div class="container mt-3 mb-3"><h3><?= $data['searchResult'] ?? '' ?></h3></div>
 
 <section id="main" class="main-wrapper">
     <div class="container">
@@ -60,7 +60,7 @@
             <ul class="pagination">
                 <?php if (isset($_GET['offset'])): ?>
                 <li class="page-item">
-                    <a class="page-link" href="/?<?php if ($_GET['offset'] <= $data['count']) { unset($_GET['offset']); echo http_build_query($_GET); } else { echo http_build_query(array_merge($_GET, ['offset' => $data['currentOffset'] - $data['count']])); }?>">Назад</a>
+                    <a class="page-link" href="/<?php if ($_GET['offset'] <= $data['count']) { unset($_GET['offset']); echo http_build_query($_GET); } else { echo '?' . http_build_query(array_merge($_GET, ['offset' => $data['currentOffset'] - $data['count']])); }?>">Назад</a>
                 </li>
                 <?php endif; ?>
 

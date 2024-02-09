@@ -29,31 +29,31 @@ readonly class Migrations
     private function isMigrationCompleted(string $migration): bool
     {
         return $this->db->query(
-            file_get_contents(SQL_SCRIPTS_PATH . "/find_migration.sql"),
+            file_get_contents(Constants::SQL_SCRIPTS_PATH . "/find_migration.sql"),
             ['s', [$migration]]
         )->num_rows !== 0;
     }
 
     private function completeMigration(string $migration): void
     {
-        $this->db->query(file_get_contents(MIGRATIONS_PATH . "/$migration"));
+        $this->db->query(file_get_contents(Constants::MIGRATIONS_PATH . "/$migration"));
     }
 
     private function insertMigration(string $migration): void
     {
         $this->db->query(
-            file_get_contents(SQL_SCRIPTS_PATH . "/add_migration.sql"),
+            file_get_contents(Constants::SQL_SCRIPTS_PATH . "/add_migration.sql"),
             ['s', [$migration]]
         );
     }
 
     private function createMigrationsHistory(): void
     {
-        $this->db->query(file_get_contents(SQL_SCRIPTS_PATH . "/create_migrations_history.sql"));
+        $this->db->query(file_get_contents(Constants::SQL_SCRIPTS_PATH . "/create_migrations_history.sql"));
     }
 
     private function getMigrationsFiles(): array
     {
-        return array_diff(scandir(MIGRATIONS_PATH), ['.', '..']);
+        return array_diff(scandir(Constants::MIGRATIONS_PATH), ['.', '..']);
     }
 }

@@ -1,1 +1,1 @@
-SELECT * FROM books WHERE title LIKE ?;
+SELECT * FROM books WHERE title LIKE ? AND deleted_at IS NULL;

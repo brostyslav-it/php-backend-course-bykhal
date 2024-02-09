@@ -18,19 +18,34 @@ class BooksPageController extends Controller
 
     public function renderTemplate(): void
     {
-        $books = $this->getBooksByParams();
+        [$books, $param] = $this->getBooksByParams();
         $offset = (!isset($_GET['offset']) || $_GET['offset'] < 1) ? self::BOOKS_PER_PAGE : $_GET['offset'];
 
-        $this->view('books-page', ['books' => $this->getBooksWithOffset($books, $offset), 'currentOffset' => $offset, 'count' => self::BOOKS_PER_PAGE]);
+        if ($offset > count($books)) {
+            $offset = count($books);
+            header("Location: /?offset=$offset");
+        }
+
+        $data = [
+            'books' => $this->getBooksWithOffset($books, $offset),
+            'currentOffset' => $offset,
+            'count' => self::BOOKS_PER_PAGE
+        ];
+
+        if ($param !== null) {
+            $data['searchResult'] = "Результати пошуку \"" . htmlspecialchars($_GET[$param]) ."\"";
+        }
+
+        $this->view('books-page', $data);
     }
 
     private function getBooksByParams(): array
     {
         return match (true) {
-            isset($_GET['search']) => $this->model->getBooksByTitle(htmlentities($_GET['search'])),
-            isset($_GET['author']) => $this->model->getBooksByAuthorId(htmlentities($_GET['author'])),
-            isset($_GET['year']) => $this->model->getBooksByYear(htmlentities($_GET['year'])),
-            default => $this->model->getBooks()
+            isset($_GET['search']) => [$this->model->getBooksByTitle(htmlspecialchars(htmlentities($_GET['search']))), 'search'],
+            isset($_GET['author']) => [$this->model->getBooksByAuthorId(htmlspecialchars(htmlentities($_GET['author']))), 'author'],
+            isset($_GET['year']) => [$this->model->getBooksByYear(htmlspecialchars(htmlentities($_GET['year']))), 'year'],
+            default => [$this->model->getBooks(), null]
         };
     }
 

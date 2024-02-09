@@ -6,7 +6,7 @@ $book = $data['book'];
 <html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>shpp-library</title>
+    <title><?= $book['title'] ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="library Sh++">
@@ -22,7 +22,6 @@ $book = $data['book'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="shortcut icon" href="http://localhost/level3/favicon.ico">
 </head>
 
 <body data-gr-c-s-loaded="true" class="">
@@ -30,11 +29,11 @@ $book = $data['book'];
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title">Чудово!</h5>
             </div>
 
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <p>Ви можете отримати книгу!</p>
             </div>
 
             <div class="modal-footer">

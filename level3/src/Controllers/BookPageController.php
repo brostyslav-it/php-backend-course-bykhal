@@ -24,7 +24,7 @@ class BookPageController extends Controller
             $book = $this->model->getBook($this->id);
             $this->view('book-page', ['book' => $book]);
         } else {
-            echo "There is no book :(";
+            $this->view('404-page', []);
         }
     }
 
